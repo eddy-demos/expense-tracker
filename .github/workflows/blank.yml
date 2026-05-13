@@ -6,11 +6,10 @@ on:
   pull_request:
     branches: ["main"]
   workflow_dispatch:
-
 jobs:
   install:
     name: Install dependencies
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-medium-4c-8g
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,7 +21,7 @@ jobs:
   client-build:
     name: Client build
     needs: install
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-medium-4c-8g
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,7 +41,7 @@ jobs:
   server-smoke:
     name: Server smoke test
     needs: install
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-medium-4c-8g
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -72,7 +71,7 @@ jobs:
   audit:
     name: npm audit (high+)
     needs: install
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-medium-4c-8g
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -86,7 +85,7 @@ jobs:
   node-matrix:
     name: Node ${{ matrix.node }} compatibility
     needs: install
-    runs-on: ubuntu-latest
+    runs-on: tenki-standard-medium-4c-8g
     strategy:
       fail-fast: false
       matrix:
