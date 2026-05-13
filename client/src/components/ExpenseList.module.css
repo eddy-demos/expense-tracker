@@ -1,0 +1,42 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table th, .table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.table th {
+  background: #fafbfc;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.table tbody tr:hover { background: #fafbfc; }
+.table tfoot td {
+  background: #fafbfc;
+  border-bottom: none;
+  border-top: 1px solid var(--border);
+}
+.right { text-align: right; font-variant-numeric: tabular-nums; }
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+.actionsCol { width: 100px; }
+.actions { display: flex; gap: 4px; }
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+  margin: 0;
+  font-size: 15px;
+}

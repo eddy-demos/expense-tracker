@@ -1,0 +1,9 @@
+node_modules
+expenses.db
+expenses.db-journal
+expenses.db-shm
+expenses.db-wal
+dist
+.DS_Store
+.env
+.vite
