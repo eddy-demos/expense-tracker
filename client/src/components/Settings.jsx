@@ -40,9 +40,10 @@ export default function Settings({ categories, onReload }) {
 
       if (format === 'csv') {
         const header = 'Date,Description,Category,Payment Method,Amount';
+        const csvField = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
         const rows = expenses.map(
           (e) =>
-            `${e.date},"${e.description}",${e.category},${e.payment_method},${e.amount}`
+            [e.date, e.description, e.category, e.payment_method, e.amount].map(csvField).join(',')
         );
         content = [header, ...rows].join('\n');
         filename = 'expenses.csv';
