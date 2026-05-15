@@ -85,3 +85,49 @@
   color: var(--muted);
   font-style: italic;
 }
+
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .card {
+    padding: 12px 14px;
+  }
+  .cardValue {
+    font-size: 22px;
+  }
+  .range {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  .range input {
+    min-width: 0;
+    width: 100%;
+  }
+  .rangeTotal {
+    margin-left: 0;
+  }
+  .bar {
+    grid-template-columns: 1fr auto;
+    column-gap: 8px;
+    row-gap: 4px;
+  }
+  .barLabel {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .barValue {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .barTrack {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    height: 12px;
+  }
+}

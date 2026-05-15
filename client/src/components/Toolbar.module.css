@@ -1,5 +1,6 @@
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: end;
 }
@@ -12,3 +13,22 @@
 }
 .field select { min-width: 200px; }
 .spacer { flex: 1; }
+
+@media (max-width: 640px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .field {
+    width: 100%;
+  }
+  .field select {
+    min-width: 0;
+    width: 100%;
+  }
+  .spacer { display: none; }
+  .toolbar > button {
+    width: 100%;
+  }
+}

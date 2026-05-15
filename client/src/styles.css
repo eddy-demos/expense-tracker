@@ -84,3 +84,17 @@ input:focus, select:focus, textarea:focus {
   margin-bottom: 20px;
   box-shadow: var(--shadow);
 }
+
+@media (max-width: 640px) {
+  .app {
+    padding: 16px 12px;
+  }
+  .app h1 {
+    font-size: 22px;
+    margin: 0 0 16px;
+  }
+  .section {
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+}
