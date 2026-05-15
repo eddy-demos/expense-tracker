@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { api, fmtUSD } from '../api.js';
+import { api } from '../api.js';
 import styles from './Settings.module.css';
 
 export default function Settings({ categories, onReload }) {
