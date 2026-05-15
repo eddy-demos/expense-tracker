@@ -1,0 +1,66 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.groupTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.rowLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rowLabel span:first-child {
+  font-weight: 500;
+}
+.rowLabel span:last-child {
+  font-size: 12px;
+  color: var(--muted);
+}
+.row select, .row input {
+  width: auto;
+  min-width: 160px;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+.dangerZone {
+  border-color: var(--danger);
+}
+.exportRow {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .row select, .row input {
+    min-width: 0;
+    width: 100%;
+  }
+  .exportRow {
+    flex-direction: column;
+  }
+}

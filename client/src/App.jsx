@@ -5,6 +5,8 @@ import SummaryPanel from './components/SummaryPanel.jsx';
 import Toolbar from './components/Toolbar.jsx';
 import ExpenseList from './components/ExpenseList.jsx';
 import ExpenseModal from './components/ExpenseModal.jsx';
+import Sidebar from './components/Sidebar.jsx';
+import Settings from './components/Settings.jsx';
 
 export default function App() {
   const [filters, setFilters] = useQueryState({
@@ -23,6 +25,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [tab, setTab] = useState('dashboard');
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
 
@@ -71,7 +74,7 @@ export default function App() {
     }
     setModalOpen(false);
     setEditing(null);
-    await reload();
+    reload();
   }
 
   async function handleDelete(exp) {
@@ -82,43 +85,60 @@ export default function App() {
   }
 
   return (
-    <div className="app">
-      <h1>Expense Tracker</h1>
+    <div className="layout">
+      <Sidebar active={tab} onNavigate={setTab} />
+      <div className="main">
+        {error && <div className="section" style={{ color: 'var(--danger)' }}>Error: {error}</div>}
 
-      {error && <div className="section" style={{ color: 'var(--danger)' }}>Error: {error}</div>}
+        {tab === 'dashboard' && (
+          <>
+            <h1>Dashboard</h1>
+            <SummaryPanel
+              summary={summary}
+              todayTotal={todayTotal}
+              weekTotal={weekTotal}
+              monthTotal={monthTotal}
+              startDate={filters.start_date}
+              endDate={filters.end_date}
+              onDateChange={setFilters}
+            />
+          </>
+        )}
 
-      <SummaryPanel
-        summary={summary}
-        todayTotal={todayTotal}
-        weekTotal={weekTotal}
-        monthTotal={monthTotal}
-        startDate={filters.start_date}
-        endDate={filters.end_date}
-        onDateChange={setFilters}
-      />
+        {tab === 'expenses' && (
+          <>
+            <h1>Expenses</h1>
+            <Toolbar
+              categories={categories}
+              category={filters.category}
+              sort={filters.sort}
+              onChange={setFilters}
+              onAdd={openAdd}
+            />
+            {loading ? (
+              <div className="section">Loading…</div>
+            ) : (
+              <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={handleDelete} />
+            )}
+          </>
+        )}
 
-      <Toolbar
-        categories={categories}
-        category={filters.category}
-        sort={filters.sort}
-        onChange={setFilters}
-        onAdd={openAdd}
-      />
+        {tab === 'settings' && (
+          <>
+            <h1>Settings</h1>
+            <Settings categories={categories} onReload={reload} />
+          </>
+        )}
 
-      {loading ? (
-        <div className="section">Loading…</div>
-      ) : (
-        <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={handleDelete} />
-      )}
-
-      <ExpenseModal
-        open={modalOpen}
-        mode={editing ? 'edit' : 'add'}
-        initial={editing}
-        categories={categories}
-        onClose={() => { setModalOpen(false); setEditing(null); }}
-        onSubmit={handleSubmit}
-      />
+        <ExpenseModal
+          open={modalOpen}
+          mode={editing ? 'edit' : 'add'}
+          initial={editing}
+          categories={categories}
+          onClose={() => { setModalOpen(false); setEditing(null); }}
+          onSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 }
