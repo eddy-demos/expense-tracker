@@ -17,7 +17,7 @@ export default function Settings({ categories, onReload }) {
     try {
       const created = await api.createExpense({
         description: '__category_seed__',
-        amount: 0,
+        amount: 0.01,
         category: name,
         payment_method: 'other',
         date: new Date().toISOString().slice(0, 10),
@@ -40,10 +40,9 @@ export default function Settings({ categories, onReload }) {
     try {
       const all = await api.listExpenses({});
       await Promise.all(all.map((e) => api.deleteExpense(e.id)));
+      onReload();
     } catch (err) {
       setDeleteError(err.message || 'Failed to delete all expenses');
-    } finally {
-      onReload();
     }
   }
 
