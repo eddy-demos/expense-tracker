@@ -5,31 +5,45 @@ import styles from './Settings.module.css';
 export default function Settings({ categories, onReload }) {
   const [newCategory, setNewCategory] = useState('');
   const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
 
   async function handleAddCategory(e) {
     e.preventDefault();
     const name = newCategory.trim();
     if (!name) return;
     setAdding(true);
+    setAddError(null);
     try {
-      await api.createExpense({
+      const created = await api.createExpense({
         description: '__category_seed__',
         amount: 0,
         category: name,
         payment_method: 'other',
         date: new Date().toISOString().slice(0, 10),
       });
-      const seeded = await api.listExpenses({ category: name });
-      const seed = seeded.find((e) => e.description === '__category_seed__');
-      if (seed?.id) {
-        await api.deleteExpense(seed.id);
+      if (created?.id) {
+        await api.deleteExpense(created.id);
       }
       setNewCategory('');
       onReload();
-    } catch {
-      /* ignore */
+    } catch (err) {
+      setAddError(err.message || 'Failed to add category');
     } finally {
       setAdding(false);
+    }
+  }
+
+  async function handleDeleteAll() {
+    if (!window.confirm('Are you sure you want to delete ALL expenses? This cannot be undone.')) return;
+    setDeleteError(null);
+    try {
+      const all = await api.listExpenses({});
+      await Promise.all(all.map((e) => api.deleteExpense(e.id)));
+    } catch (err) {
+      setDeleteError(err.message || 'Failed to delete all expenses');
+    } finally {
+      onReload();
     }
   }
 
@@ -103,6 +117,9 @@ export default function Settings({ categories, onReload }) {
               {adding ? 'Adding...' : 'Add'}
             </button>
           </form>
+          {addError && (
+            <p style={{ color: 'var(--danger)', fontSize: 13, margin: '4px 0 0' }}>{addError}</p>
+          )}
         </div>
       </div>
 
@@ -129,18 +146,13 @@ export default function Settings({ categories, onReload }) {
               <span>Delete all expenses</span>
               <span>This action cannot be undone.</span>
             </div>
-            <button
-              className="danger"
-              onClick={async () => {
-                if (!window.confirm('Are you sure you want to delete ALL expenses? This cannot be undone.')) return;
-                const all = await api.listExpenses({});
-                await Promise.all(all.map((e) => api.deleteExpense(e.id)));
-                onReload();
-              }}
-            >
+            <button className="danger" onClick={handleDeleteAll}>
               Delete All
             </button>
           </div>
+          {deleteError && (
+            <p style={{ color: 'var(--danger)', fontSize: 13, margin: '8px 0 0' }}>{deleteError}</p>
+          )}
         </div>
       </div>
     </div>
