@@ -13,7 +13,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete }) {
   const total = expenses.reduce((s, e) => s + e.amount, 0);
 
   return (
-    <div className="section" style={{ padding: 0, overflow: 'hidden' }}>
+    <div className="section" style={{ padding: 0, overflowX: 'auto' }}>
       <table className={styles.table}>
         <thead>
           <tr>

@@ -40,3 +40,14 @@
   margin: 0;
   font-size: 15px;
 }
+
+@media (max-width: 640px) {
+  .table {
+    font-size: 13px;
+  }
+  .table th, .table td {
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+  .actionsCol { width: 80px; }
+}
