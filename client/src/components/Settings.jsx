@@ -19,11 +19,11 @@ export default function Settings({ categories, onReload }) {
         payment_method: 'other',
         date: new Date().toISOString().slice(0, 10),
       });
-      await api.deleteExpense(
-        (await api.listExpenses({ category: name })).find(
-          (e) => e.description === '__category_seed__'
-        )?.id
-      );
+      const seeded = await api.listExpenses({ category: name });
+      const seed = seeded.find((e) => e.description === '__category_seed__');
+      if (seed?.id) {
+        await api.deleteExpense(seed.id);
+      }
       setNewCategory('');
       onReload();
     } catch {
