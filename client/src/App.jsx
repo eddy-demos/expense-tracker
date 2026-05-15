@@ -74,7 +74,7 @@ export default function App() {
     }
     setModalOpen(false);
     setEditing(null);
-    reload();
+    await reload();
   }
 
   async function handleDelete(exp) {
