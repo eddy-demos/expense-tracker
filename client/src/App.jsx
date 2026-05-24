@@ -5,6 +5,7 @@ import SummaryPanel from './components/SummaryPanel.jsx';
 import Toolbar from './components/Toolbar.jsx';
 import ExpenseList from './components/ExpenseList.jsx';
 import ExpenseModal from './components/ExpenseModal.jsx';
+import ConfirmDialog from './components/ConfirmDialog.jsx';
 
 export default function App() {
   const [filters, setFilters] = useQueryState({
@@ -25,6 +26,7 @@ export default function App() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [deleting, setDeleting] = useState(null);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -74,10 +76,14 @@ export default function App() {
     await reload();
   }
 
-  async function handleDelete(exp) {
-    const ok = window.confirm(`Delete "${exp.description}" (${fmtUSD.format(exp.amount)})?`);
-    if (!ok) return;
-    await api.deleteExpense(exp.id);
+  function requestDelete(exp) {
+    setDeleting(exp);
+  }
+
+  async function confirmDelete() {
+    if (!deleting) return;
+    await api.deleteExpense(deleting.id);
+    setDeleting(null);
     await reload();
   }
 
@@ -108,7 +114,7 @@ export default function App() {
       {loading ? (
         <div className="section">Loading…</div>
       ) : (
-        <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={handleDelete} />
+        <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={requestDelete} />
       )}
 
       <ExpenseModal
@@ -118,6 +124,23 @@ export default function App() {
         categories={categories}
         onClose={() => { setModalOpen(false); setEditing(null); }}
         onSubmit={handleSubmit}
+      />
+
+      <ConfirmDialog
+        open={!!deleting}
+        title="Delete expense?"
+        message={deleting && (
+          <>
+            This will permanently delete{' '}
+            <strong>"{deleting.description}"</strong> ({fmtUSD.format(deleting.amount)}).
+            This action cannot be undone.
+          </>
+        )}
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleting(null)}
       />
     </div>
   );
