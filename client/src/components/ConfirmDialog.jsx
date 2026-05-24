@@ -17,11 +17,11 @@ export default function ConfirmDialog({
   useEffect(() => {
     if (!open) return;
     function onKey(e) {
-      if (e.key === 'Escape') onCancel?.();
+      if (e.key === 'Escape' && !submitting) onCancel?.();
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open, onCancel]);
+  }, [open, onCancel, submitting]);
 
   useEffect(() => {
     if (open) {
@@ -45,7 +45,7 @@ export default function ConfirmDialog({
   }
 
   return (
-    <div className={styles.backdrop} onClick={onCancel}>
+    <div className={styles.backdrop} onClick={submitting ? undefined : onCancel}>
       <div
         className={styles.modal}
         role="dialog"
