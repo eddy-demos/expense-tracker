@@ -12,6 +12,7 @@ export default function ConfirmDialog({
   onCancel
 }) {
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!open) return;
@@ -23,15 +24,21 @@ export default function ConfirmDialog({
   }, [open, onCancel]);
 
   useEffect(() => {
-    if (open) setSubmitting(false);
+    if (open) {
+      setSubmitting(false);
+      setError(null);
+    }
   }, [open]);
 
   if (!open) return null;
 
   async function handleConfirm() {
     setSubmitting(true);
+    setError(null);
     try {
       await onConfirm?.();
+    } catch (err) {
+      setError(err?.message || 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -51,6 +58,7 @@ export default function ConfirmDialog({
           <h2 id="confirm-title">{title}</h2>
         </div>
         <div className={styles.body}>{message}</div>
+        {error && <div className={styles.globalError} role="alert">{error}</div>}
         <div className={styles.actions}>
           <button type="button" onClick={onCancel} disabled={submitting}>
             {cancelLabel}
