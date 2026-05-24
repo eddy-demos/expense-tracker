@@ -83,8 +83,8 @@ export default function App() {
   async function confirmDelete() {
     if (!deleting) return;
     await api.deleteExpense(deleting.id);
-    setDeleting(null);
     await reload();
+    setDeleting(null);
   }
 
   return (
