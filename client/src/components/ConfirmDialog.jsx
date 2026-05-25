@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { WarningCircle } from '@phosphor-icons/react';
 import styles from './ConfirmDialog.module.css';
 
 export default function ConfirmDialog({
@@ -54,7 +55,7 @@ export default function ConfirmDialog({
         onClick={e => e.stopPropagation()}
       >
         <div className={styles.header}>
-          {variant === 'danger' && <div className={styles.iconWrap} aria-hidden="true">!</div>}
+          {variant === 'danger' && <div className={styles.iconWrap} aria-hidden="true"><WarningCircle weight="fill" size={20} /></div>}
           <h2 id="confirm-title">{title}</h2>
         </div>
         <div className={styles.body}>{message}</div>

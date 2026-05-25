@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { X } from '@phosphor-icons/react';
 import { PAYMENT_METHODS, todayISO } from '../api.js';
 import styles from './ExpenseModal.module.css';
 
@@ -74,7 +75,7 @@ export default function ExpenseModal({ open, mode, initial, categories, onClose,
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         <div className={styles.header}>
           <h2>{mode === 'edit' ? 'Edit Expense' : 'Add Expense'}</h2>
-          <button className="icon" onClick={onClose}>✕</button>
+          <button className="icon" onClick={onClose}><X weight="fill" size={16} /></button>
         </div>
         <form onSubmit={handleSubmit} className={styles.form}>
           <Field label="Amount" error={errors.amount}>
