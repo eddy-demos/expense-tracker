@@ -1,4 +1,4 @@
-import { Wallet, Bell, ChartPie, Gear } from '@phosphor-icons/react';
+import { Wallet, Bell, UserCircle } from '@phosphor-icons/react';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -22,12 +22,9 @@ export default function Navbar() {
             <Bell weight="fill" size={20} />
             <span className={styles.badge} />
           </button>
-          <img
-            className={styles.avatar}
-            src="https://api.dicebear.com/9.x/avataaars/svg?seed=Eddy"
-            alt="Profile"
-            title="Profile"
-          />
+          <button className={styles.iconBtn} title="Profile">
+            <UserCircle weight="fill" size={28} />
+          </button>
         </div>
       </div>
     </nav>

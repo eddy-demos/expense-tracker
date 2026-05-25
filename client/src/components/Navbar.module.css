@@ -83,19 +83,6 @@
   background: var(--danger);
   border: 2px solid var(--surface);
 }
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 0.15s;
-}
-.avatar:hover {
-  border-color: var(--primary);
-}
-
 @media (max-width: 640px) {
   .inner {
     padding: 0 12px;
