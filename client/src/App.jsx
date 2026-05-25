@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api, fmtUSD, monthStartISO, monthEndISO, weekStartISO, todayISO } from './api.js';
 import { useQueryState } from './useQueryState.js';
+import Navbar from './components/Navbar.jsx';
 import SummaryPanel from './components/SummaryPanel.jsx';
 import Toolbar from './components/Toolbar.jsx';
 import ExpenseList from './components/ExpenseList.jsx';
@@ -88,8 +89,9 @@ export default function App() {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="app">
-      <h1>Expense Tracker</h1>
 
       {error && <div className="section" style={{ color: 'var(--danger)' }}>Error: {error}</div>}
 
@@ -143,5 +145,6 @@ export default function App() {
         onCancel={() => setDeleting(null)}
       />
     </div>
+    </>
   );
 }
