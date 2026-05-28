@@ -1,9 +1,19 @@
+import { useState, useEffect } from 'react';
 import { fmtUSD, categoryColor } from '../api.js';
 import styles from './SummaryPanel.module.css';
 
 export default function SummaryPanel({ summary, todayTotal, weekTotal, monthTotal, startDate, endDate, onDateChange }) {
   const cats = summary?.by_category || [];
   const max = cats.reduce((m, c) => Math.max(m, c.total), 0) || 1;
+
+  const [animated, setAnimated] = useState(false);
+  useEffect(() => {
+    if (cats.length > 0) {
+      const id = requestAnimationFrame(() => setAnimated(true));
+      return () => cancelAnimationFrame(id);
+    }
+    setAnimated(false);
+  }, [cats]);
 
   return (
     <div className="section">
@@ -38,7 +48,7 @@ export default function SummaryPanel({ summary, todayTotal, weekTotal, monthTota
               <div className={styles.barTrack}>
                 <div
                   className={styles.barFill}
-                  style={{ width: `${(c.total / max) * 100}%`, background: categoryColor(c.category) }}
+                  style={{ width: animated ? `${(c.total / max) * 100}%` : '0%', background: categoryColor(c.category) }}
                 />
               </div>
               <span className={styles.barValue}>{fmtUSD.format(c.total)}</span>

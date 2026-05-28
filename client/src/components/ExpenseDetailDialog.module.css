@@ -1,0 +1,70 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 8px;
+}
+.header h2 {
+  margin: 0;
+  font-size: 17px;
+}
+.body {
+  padding: 8px 20px 16px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.row:last-child {
+  border-bottom: none;
+}
+.label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.value {
+  font-size: 14px;
+  font-weight: 500;
+}
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  font-weight: 600;
+}
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px 18px;
+}
+
+@media (max-width: 640px) {
+  .backdrop { padding: 12px; }
+}

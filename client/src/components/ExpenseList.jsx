@@ -2,7 +2,7 @@ import { PencilSimple, Trash } from '@phosphor-icons/react';
 import { fmtUSD, paymentLabel, categoryColor } from '../api.js';
 import styles from './ExpenseList.module.css';
 
-export default function ExpenseList({ expenses, onEdit, onDelete }) {
+export default function ExpenseList({ expenses, onEdit, onDelete, onRowClick }) {
   if (expenses.length === 0) {
     return (
       <div className="section">
@@ -28,7 +28,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete }) {
         </thead>
         <tbody>
           {expenses.map(e => (
-            <tr key={e.id}>
+            <tr key={e.id} onClick={() => onRowClick?.(e)} style={{ cursor: 'pointer' }}>
               <td>{e.date}</td>
               <td>{e.description}</td>
               <td>
@@ -39,8 +39,8 @@ export default function ExpenseList({ expenses, onEdit, onDelete }) {
               <td>{paymentLabel(e.payment_method)}</td>
               <td className={styles.right}>{fmtUSD.format(e.amount)}</td>
               <td className={styles.actions}>
-                <button className="icon" onClick={() => onEdit(e)} title="Edit"><PencilSimple weight="fill" size={16} /></button>
-                <button className="icon" onClick={() => onDelete(e)} title="Delete"><Trash weight="fill" size={16} /></button>
+                <button className="icon" onClick={(ev) => { ev.stopPropagation(); onEdit(e); }} title="Edit"><PencilSimple weight="fill" size={16} /></button>
+                <button className="icon" onClick={(ev) => { ev.stopPropagation(); onDelete(e); }} title="Delete"><Trash weight="fill" size={16} /></button>
               </td>
             </tr>
           ))}
