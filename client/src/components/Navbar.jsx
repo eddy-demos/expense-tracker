@@ -23,7 +23,7 @@ export default function Navbar() {
             <span className={styles.badge} />
           </button>
           <button className={styles.iconBtn} title="Profile">
-            <UserCircle weight="fill" size={28} />
+            <UserCircle weight="fill" size={26} />
           </button>
         </div>
       </div>
