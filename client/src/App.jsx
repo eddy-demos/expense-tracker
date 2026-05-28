@@ -7,6 +7,7 @@ import Toolbar from './components/Toolbar.jsx';
 import ExpenseList from './components/ExpenseList.jsx';
 import ExpenseModal from './components/ExpenseModal.jsx';
 import ConfirmDialog from './components/ConfirmDialog.jsx';
+import ExpenseDetailDialog from './components/ExpenseDetailDialog.jsx';
 
 export default function App() {
   const [filters, setFilters] = useQueryState({
@@ -28,6 +29,7 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
+  const [viewing, setViewing] = useState(null);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -116,7 +118,7 @@ export default function App() {
       {loading ? (
         <div className="section">Loading…</div>
       ) : (
-        <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={requestDelete} />
+        <ExpenseList expenses={expenses} onEdit={openEdit} onDelete={requestDelete} onRowClick={setViewing} />
       )}
 
       <ExpenseModal
@@ -126,6 +128,12 @@ export default function App() {
         categories={categories}
         onClose={() => { setModalOpen(false); setEditing(null); }}
         onSubmit={handleSubmit}
+      />
+
+      <ExpenseDetailDialog
+        expense={viewing}
+        open={!!viewing}
+        onClose={() => setViewing(null)}
       />
 
       <ConfirmDialog
