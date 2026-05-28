@@ -70,7 +70,7 @@ export default function App() {
 
   async function handleSubmit(body) {
     if (editing) {
-      await api.updateExpense(editing.id, { ...body, description: '' });
+      await api.updateExpense(editing.id, body);
     } else {
       await api.createExpense(body);
     }
