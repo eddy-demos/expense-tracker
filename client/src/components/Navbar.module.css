@@ -47,7 +47,7 @@
 }
 .links a.active {
   color: var(--primary);
-  background: #eff6ff;
+  background: var(--primary-soft);
 }
 .right {
   margin-left: auto;

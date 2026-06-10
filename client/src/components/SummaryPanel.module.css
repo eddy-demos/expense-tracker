@@ -8,7 +8,7 @@
   padding: 16px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: #fafbfc;
+  background: var(--surface-2);
 }
 .cardLabel {
   font-size: 12px;
@@ -66,7 +66,7 @@
 }
 .barLabel { font-size: 13px; }
 .barTrack {
-  background: #f1f3f5;
+  background: var(--secondary);
   height: 18px;
   border-radius: 4px;
   overflow: hidden;
