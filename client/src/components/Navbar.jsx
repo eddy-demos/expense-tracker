@@ -1,23 +1,28 @@
-import { Wallet, Bell, UserCircle } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
+import { Wallet, Bell, UserCircle, Sun, Moon } from '@phosphor-icons/react';
+import { useTheme, appliedTheme } from '../lib/theme.js';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
+  const [theme, setTheme] = useTheme();
+  const dark = appliedTheme(theme) === 'dark';
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.inner}>
-        <a href="/" className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <Wallet weight="fill" size={24} />
           ExpenseTracker
-        </a>
-
-        <div className={styles.links}>
-          <a href="/" className={styles.active}>Dashboard</a>
-          <a href="#">Reports</a>
-          <a href="#">Budgets</a>
-          <a href="#">Settings</a>
-        </div>
+        </Link>
 
         <div className={styles.right}>
+          <button
+            className={styles.iconBtn}
+            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={() => setTheme(dark ? 'light' : 'dark')}
+          >
+            {dark ? <Sun weight="fill" size={20} /> : <Moon weight="fill" size={20} />}
+          </button>
           <button className={styles.iconBtn} title="Notifications">
             <Bell weight="fill" size={20} />
             <span className={styles.badge} />

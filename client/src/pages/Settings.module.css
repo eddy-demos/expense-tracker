@@ -1,0 +1,28 @@
+.title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.hint {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+}
+.option.selected {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}

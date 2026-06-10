@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: var(--overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@
   max-width: 480px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-lg);
 }
 .header {
   display: flex;
@@ -50,7 +50,7 @@
   font-size: 12px;
 }
 .globalError {
-  background: #fee2e2;
+  background: var(--danger-soft);
   color: var(--danger);
   padding: 10px 12px;
   border-radius: var(--radius);
