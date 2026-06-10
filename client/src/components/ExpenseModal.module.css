@@ -50,7 +50,7 @@
   font-size: 12px;
 }
 .globalError {
-  background: #fee2e2;
+  background: var(--danger-soft);
   color: var(--danger);
   padding: 10px 12px;
   border-radius: var(--radius);

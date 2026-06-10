@@ -17,6 +17,12 @@ db.exec(`
     payment_method TEXT NOT NULL CHECK (payment_method IN ('cash', 'debit', 'credit', 'bank_transfer', 'other')),
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS budgets (
+    category TEXT PRIMARY KEY,
+    monthly_limit REAL NOT NULL CHECK (monthly_limit >= 0),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 export default db;

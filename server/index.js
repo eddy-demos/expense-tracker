@@ -75,6 +75,46 @@ app.get('/api/summary', (req, res) => {
   res.json({ total, by_category, by_payment_method });
 });
 
+// Monthly spending trend. Returns one row per month present in the data,
+// oldest first: { month: 'YYYY-MM', total, count }.
+app.get('/api/trends', (req, res) => {
+  const { category } = req.query;
+  const where = [];
+  const params = {};
+  if (category) { where.push('category = @category'); params.category = category; }
+  const w = where.length ? 'WHERE ' + where.join(' AND ') : '';
+  const rows = db.prepare(
+    `SELECT substr(date, 1, 7) AS month, SUM(amount) AS total, COUNT(*) AS count
+     FROM expenses ${w} GROUP BY month ORDER BY month ASC`
+  ).all(params);
+  res.json(rows);
+});
+
+app.get('/api/budgets', (req, res) => {
+  const rows = db.prepare('SELECT category, monthly_limit FROM budgets ORDER BY category').all();
+  res.json(rows);
+});
+
+app.put('/api/budgets/:category', (req, res) => {
+  const category = String(req.params.category || '').trim();
+  if (!category) return res.status(400).json({ error: 'category is required' });
+  const limit = Number(req.body.monthly_limit);
+  if (!Number.isFinite(limit) || limit < 0) {
+    return res.status(400).json({ error: 'monthly_limit must be a non-negative number' });
+  }
+  db.prepare(
+    `INSERT INTO budgets (category, monthly_limit, updated_at) VALUES (@category, @limit, datetime('now'))
+     ON CONFLICT(category) DO UPDATE SET monthly_limit = @limit, updated_at = datetime('now')`
+  ).run({ category, limit });
+  res.json({ category, monthly_limit: limit });
+});
+
+app.delete('/api/budgets/:category', (req, res) => {
+  const info = db.prepare('DELETE FROM budgets WHERE category = ?').run(req.params.category);
+  if (info.changes === 0) return res.status(404).json({ error: 'Not found' });
+  res.status(204).end();
+});
+
 app.get('/api/expenses/:id', (req, res) => {
   const row = db.prepare('SELECT * FROM expenses WHERE id = ?').get(req.params.id);
   if (!row) return res.status(404).json({ error: 'Not found' });

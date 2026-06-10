@@ -26,7 +26,21 @@ export const api = {
     Object.entries(params || {}).forEach(([k, v]) => { if (v) qs.set(k, v); });
     return request(`/summary?${qs.toString()}`);
   },
-  categories: () => request('/categories')
+  trends: (params) => {
+    const qs = new URLSearchParams();
+    Object.entries(params || {}).forEach(([k, v]) => { if (v) qs.set(k, v); });
+    const q = qs.toString();
+    return request(`/trends${q ? `?${q}` : ''}`);
+  },
+  categories: () => request('/categories'),
+  budgets: () => request('/budgets'),
+  setBudget: (category, monthly_limit) =>
+    request(`/budgets/${encodeURIComponent(category)}`, {
+      method: 'PUT',
+      body: JSON.stringify({ monthly_limit })
+    }),
+  deleteBudget: (category) =>
+    request(`/budgets/${encodeURIComponent(category)}`, { method: 'DELETE' })
 };
 
 export const fmtUSD = new Intl.NumberFormat('en-US', {
@@ -55,6 +69,16 @@ export function weekStartISO(d = new Date()) {
   const day = x.getDay();
   x.setDate(x.getDate() - day);
   return x.toISOString().slice(0, 10);
+}
+
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Formats a 'YYYY-MM' key into e.g. 'Jun 2026'.
+export function monthLabel(ym) {
+  if (!ym || ym.length < 7) return ym || '';
+  const [y, m] = ym.split('-');
+  const idx = Number(m) - 1;
+  return `${MONTH_NAMES[idx] || m} ${y}`;
 }
 
 export const PAYMENT_METHODS = [

@@ -24,7 +24,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #fee2e2;
+  background: var(--danger-soft);
   color: var(--danger);
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@
 }
 .globalError {
   margin: 0 20px 12px;
-  background: #fee2e2;
+  background: var(--danger-soft);
   color: var(--danger);
   padding: 10px 12px;
   border-radius: var(--radius);
